@@ -20,6 +20,11 @@ variable "chatui_namespace" {
   default     = "chatui"
 }
 
+variable "admin_group_object_ids" {
+  description = "List of Azure AD group object IDs to assign as AKS admins"
+  type        = list(string)
+}
+
 variable "cluster_name" {
   description = "Name of the AKS cluster"
   type        = string
