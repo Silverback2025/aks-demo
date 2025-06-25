@@ -13,7 +13,9 @@ variable "location" {
   default = "string"
 }
 
-variable "aks_cluster_name"
+variable "aks_cluster_name" {
+  description = "AKS cluster name"
+  type    = string
   default = "string"
 } 
 
@@ -133,7 +135,7 @@ variable "dns_prefix" {
   type = string
 }
 
-variable "kubernetes_version" 
+variable "kubernetes_version" {
   description = "Kubernetes version"
   type = string
 }
