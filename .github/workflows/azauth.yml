@@ -24,3 +24,15 @@ jobs:
       - name: Verify access by listing resource group
         run: |
           az group show --name ashishtech --output table
+                
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+      - name: Show Plan Output
+        run: terraform show tfplan
