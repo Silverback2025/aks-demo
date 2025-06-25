@@ -144,3 +144,13 @@ variable "node_vm_size" {
   description = "Size of the virtual machines in the default node pool"
   type        = string
 }
+
+variable "storage_account_name" {
+  description = "Name of the Azure Storage Account for backend"
+  type        = string
+}
+
+variable "container_name" {
+  description = "Name of the blob container for backend state storage"
+  type        = string
+}
