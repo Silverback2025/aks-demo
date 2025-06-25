@@ -44,7 +44,7 @@ jobs:
       - name: Run tfsec (security scan)
         uses: aquasecurity/tfsec-action@v1.0.0
         with:
-          working-directory: ${{ env.TF_WORKING_DIR }}
+          working-directory: .
 
       - name: Run Checkov (security scan)
         uses: bridgecrewio/checkov-action@master
