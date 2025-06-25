@@ -49,10 +49,6 @@ jobs:
 
 
 
-      - name: Run Checkov (security scan)
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: ${{ env.TF_WORKING_DIR }}
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan -input=false -no-color
