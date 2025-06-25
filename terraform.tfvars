@@ -32,7 +32,7 @@ vm_size     = "Standard_DS2_v2"
 aks_version = "1.21.2"
 
 api_server_authorized_ip_ranges = ["203.0.113.10/32"]
-min_tls_version = "TLS1_2"
+min_tls_version                 = "TLS1_2"
 
 
 #####Terraform Backend
