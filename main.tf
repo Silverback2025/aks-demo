@@ -59,6 +59,6 @@ module "aks_rbac" {
   enable_azure_rbac      = var.enable_azure_rbac
   azure_rbac_enabled     = var.azure_rbac_enabled
   azure_rbac_mode        = var.azure_rbac_mode
-  depends_on             = [module.aks_cluster]
+  depends_on             = [module.aks]
 }
 
