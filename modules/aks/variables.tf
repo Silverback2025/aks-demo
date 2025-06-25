@@ -131,3 +131,8 @@ variable "aks_version" {
   default     = "1.21.2"
 }
 
+variable "api_server_authorized_ip_ranges" {
+  description = "List of IP ranges allowed to access the AKS API server"
+  type        = list(string)
+  default     = []  # Optional: or set to null if you'd rather require it
+}
