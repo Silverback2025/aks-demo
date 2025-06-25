@@ -35,7 +35,7 @@ module "aks" {
   load_balancer_sku               = var.load_balancer_sku
   oms_agent_enabled               = var.oms_agent_enabled
   oms_agent_workspace_id          = var.oms_agent_workspace_id
-  api_server_authorized_ip_ranges = var.api_server_authorized_ip_ranges
+  api_server_authorized_ip_ranges = var.authorized_ips
   identity_type                   = var.identity_type
   addon_profile                   = var.addon_profile
   network_profile                 = var.network_profile
@@ -45,17 +45,20 @@ module "aks" {
   kube_config_content             = var.kube_config_content
   kube_config_sensitive           = var.kube_config_sensitive
   kube_config_output              = var.kube_config_output
-  aks_version                     = var.aks_version
+  kubernetes_version              = var.kubernetes_version
 }
 
 module "aks_rbac" {
   source = "./modules/aks-rbac"
 
+  cluster_name        = module.aks_cluster.name
+  resource_group_name = module.aks_cluster.resource_group_name
   aks_cluster_id         = module.aks.cluster_id
   admin_group_object_ids = var.admin_group_object_ids
   scope                  = module.aks.cluster_id
   enable_azure_rbac      = var.enable_azure_rbac
   azure_rbac_enabled     = var.azure_rbac_enabled
   azure_rbac_mode        = var.azure_rbac_mode
+  depends_on = [module.aks_cluster]
 }
 
