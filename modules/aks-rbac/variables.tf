@@ -52,7 +52,3 @@ variable "resource_group_name" {
   default     = ""
 }
 
-variable "admin_group_object_ids" {
-  type        = list(string)
-  description = "Azure AD group object IDs to be assigned Kubernetes RBAC roles"
-}
