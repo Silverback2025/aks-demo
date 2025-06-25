@@ -5,9 +5,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix          = var.dns_prefix
   kubernetes_version  = var.kubernetes_version
 
-role_based_access_control {
-  enabled = true
-}
+  role_based_access_control {
+    enabled = true
+  }
 
 
   # Keep your existing configuration:
