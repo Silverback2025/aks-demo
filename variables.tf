@@ -13,8 +13,7 @@ variable "location" {
   default = "string"
 }
 
-variable "aks_cluster_name" 
-  description = "Name of the AKS cluster"
+variable "aks_cluster_name"
   default = "string"
 } 
 
