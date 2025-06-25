@@ -35,7 +35,7 @@ module "aks" {
   load_balancer_sku               = var.load_balancer_sku
   oms_agent_enabled               = var.oms_agent_enabled
   oms_agent_workspace_id          = var.oms_agent_workspace_id
-  api_server_authorized_ip_ranges = var.authorized_ips
+  api_server_authorized_ip_ranges = var.api_server_authorized_ip_ranges
   identity_type                   = var.identity_type
   addon_profile                   = var.addon_profile
   network_profile                 = var.network_profile
