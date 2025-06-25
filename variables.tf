@@ -154,3 +154,9 @@ variable "container_name" {
   description = "Name of the blob container for backend state storage"
   type        = string
 }
+
+variable "api_server_authorized_ip_ranges" {
+  description = "IP ranges allowed to access the AKS API server"
+  type        = list(string)
+  default     = []
+}
