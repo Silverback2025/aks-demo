@@ -28,6 +28,8 @@ enable_azure_rbac            = false
 azure_rbac_enabled           = false
 azure_rbac_mode              = ""
 
+vm_size     = "Standard_DS2_v2"
+aks_version = "1.21.2"
 
 
 
