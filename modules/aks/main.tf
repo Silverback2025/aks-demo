@@ -5,8 +5,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix          = var.dns_prefix
   kubernetes_version  = var.kubernetes_version
 
-  rbac_enabled = true
-
 
   # Keep your existing configuration:
   api_server_access_profile {
