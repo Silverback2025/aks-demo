@@ -11,8 +11,8 @@ resource "azurerm_log_analytics_workspace" "log" {
   retention_in_days   = 30
 }
 resource "azurerm_monitor_diagnostic_setting" "aks_diagnostics" {
-  name               = "aks-diagnostics"
-  target_resource_id = var.cluster_id
+  name                       = "aks-diagnostics"
+  target_resource_id         = var.cluster_id
   log_analytics_workspace_id = azurerm_log_analytics_workspace.log.id
 
   enabled_log {
