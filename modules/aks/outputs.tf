@@ -14,7 +14,9 @@ output "kube_config" {
 }
 
 output "cluster_name" {
-  value = azurerm_kubernetes_cluster.aks.id
+  value = azurerm_kubernetes_cluster.aks.name
 }
 
-
+output "resource_group_name" {
+  value = azurerm_kubernetes_cluster.aks.resource_group_name
+}
