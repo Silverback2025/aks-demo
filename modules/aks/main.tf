@@ -5,8 +5,10 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix          = var.dns_prefix
   kubernetes_version  = var.kubernetes_version
 
-  # Enable basic RBAC (required for your separate module to work)
-  rbac_enabled = true
+role_based_access_control {
+  enabled = true
+}
+
 
   # Keep your existing configuration:
   api_server_access_profile {
