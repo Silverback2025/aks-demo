@@ -28,7 +28,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   # Explicitly disable Azure AD RBAC since you're managing it separately
   azure_active_directory_role_based_access_control {
-    azure_rbac_enabled = false
+    azure_rbac_enabled     = false
     admin_group_object_ids = var.admin_group_object_ids
   }
 
