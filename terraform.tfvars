@@ -36,6 +36,7 @@ api_server_authorized_ip_ranges = [
   "185.199.108.0/22"  
 ]
 
+min_tls_version = "TLS1_2"
 
 
 #####Terraform Backend
