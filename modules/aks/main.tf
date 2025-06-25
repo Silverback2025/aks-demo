@@ -4,13 +4,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   resource_group_name = var.resource_group_name
   dns_prefix          = var.dns_prefix
   kubernetes_version  = var.kubernetes_version
-  addon_profile {
-    oms_agent {
-      enabled                    = true
-      log_analytics_workspace_id = var.oms_agent_workspace_id
-    }
-  }
-
+ 
 
   # Keep your existing configuration:
   api_server_access_profile {
