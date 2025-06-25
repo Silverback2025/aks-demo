@@ -1,6 +1,6 @@
 variable "resource_group_name" {
   description = "Resource group name"
-  default = "string"
+  default     = "string"
 }
 
 variable "subscription_id" {
@@ -10,14 +10,14 @@ variable "subscription_id" {
 
 variable "location" {
   description = "Azure region"
-  default = "string"
+  default     = "string"
 }
 
 variable "aks_cluster_name" {
   description = "AKS cluster name"
-  type    = string
-  default = "string"
-} 
+  type        = string
+  default     = "string"
+}
 
 variable "log_analytics_workspace_id" {
   description = "ID of the Log Analytics workspace"
@@ -132,12 +132,12 @@ variable "azure_rbac_mode" {
 
 variable "dns_prefix" {
   description = "DNS prefix"
-  type = string
+  type        = string
 }
 
 variable "kubernetes_version" {
   description = "Kubernetes version"
-  type = string
+  type        = string
 }
 
 variable "node_vm_size" {

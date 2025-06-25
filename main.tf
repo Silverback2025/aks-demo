@@ -10,51 +10,51 @@ module "backend_storage" {
 module "monitoring" {
   source              = "./modules/monitoring"
   resource_group_name = var.resource_group_name
-  cluster_id = module.aks.cluster_id
+  cluster_id          = module.aks.cluster_id
   location            = var.location
 }
 
 module "bootstrap" {
   source              = "./modules/bootstrap"
   resource_group_name = var.resource_group_name
-  aks_cluster_name        = module.aks.cluster_name
+  aks_cluster_name    = module.aks.cluster_name
   depends_on          = [module.aks]
 }
 
 module "aks" {
-  source = "./modules/aks"  # path to your aks module folder
+  source = "./modules/aks" # path to your aks module folder
 
-  resource_group_name       = var.resource_group_name
-  location                 = var.location
+  resource_group_name        = var.resource_group_name
+  location                   = var.location
   log_analytics_workspace_id = module.monitoring.log_analytics_workspace_id
-  chatui_namespace         = var.chatui_namespace
-  cluster_name         = var.aks_cluster_name
-  node_count               = var.node_count
-  node_vm_size                  = var.vm_size
-  network_plugin           = var.network_plugin
-  load_balancer_sku        = var.load_balancer_sku
-  oms_agent_enabled        = var.oms_agent_enabled
-  oms_agent_workspace_id   = var.oms_agent_workspace_id
-  identity_type            = var.identity_type
-  addon_profile            = var.addon_profile
-  network_profile          = var.network_profile
-  kube_config              = var.kube_config
-  kube_config_context      = var.kube_config_context
-  kube_config_path         = var.kube_config_path
-  kube_config_content      = var.kube_config_content
-  kube_config_sensitive    = var.kube_config_sensitive
-  kube_config_output       = var.kube_config_output
-  aks_version              = var.aks_version
+  chatui_namespace           = var.chatui_namespace
+  cluster_name               = var.aks_cluster_name
+  node_count                 = var.node_count
+  node_vm_size               = var.vm_size
+  network_plugin             = var.network_plugin
+  load_balancer_sku          = var.load_balancer_sku
+  oms_agent_enabled          = var.oms_agent_enabled
+  oms_agent_workspace_id     = var.oms_agent_workspace_id
+  identity_type              = var.identity_type
+  addon_profile              = var.addon_profile
+  network_profile            = var.network_profile
+  kube_config                = var.kube_config
+  kube_config_context        = var.kube_config_context
+  kube_config_path           = var.kube_config_path
+  kube_config_content        = var.kube_config_content
+  kube_config_sensitive      = var.kube_config_sensitive
+  kube_config_output         = var.kube_config_output
+  aks_version                = var.aks_version
 }
 
 module "aks_rbac" {
   source = "./modules/aks-rbac"
 
-  aks_cluster_id       = module.aks.cluster_id
+  aks_cluster_id         = module.aks.cluster_id
   admin_group_object_ids = var.admin_group_object_ids
-  scope                     = module.aks.cluster_id
-  enable_azure_rbac        = var.enable_azure_rbac
-  azure_rbac_enabled       = var.azure_rbac_enabled
-  azure_rbac_mode          = var.azure_rbac_mode
+  scope                  = module.aks.cluster_id
+  enable_azure_rbac      = var.enable_azure_rbac
+  azure_rbac_enabled     = var.azure_rbac_enabled
+  azure_rbac_mode        = var.azure_rbac_mode
 }
 

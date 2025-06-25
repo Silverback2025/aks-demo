@@ -116,7 +116,7 @@ variable "kube_config_content" {
 }
 variable "kube_config_sensitive" {
   description = "Whether the kubeconfig content is sensitive"
-  type        = bool    
+  type        = bool
   default     = false
 }
 
