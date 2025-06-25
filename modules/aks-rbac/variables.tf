@@ -38,3 +38,20 @@ variable "chatui_namespace" {
   type        = string
   default     = "chatui"
 }
+
+variable "admin_group_object_ids" {
+  type        = list(string)
+  description = "Azure AD group IDs for admin access"
+}
+
+variable "cluster_name" {
+  type        = string
+  description = "Name of the AKS cluster"
+  default     = ""
+}
+
+variable "resource_group_name" {
+  type        = string
+  description = "Name of the resource group"
+  default     = ""
+}
