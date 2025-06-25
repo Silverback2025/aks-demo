@@ -1,3 +1,12 @@
+
+module "backend_storage" {
+  source               = "./modules/terraform_backend_storage"
+  resource_group_name  = var.resource_group_name
+  location             = var.location
+  storage_account_name = var.storage_account_name
+  container_name       = var.container_name
+}
+
 module "monitoring" {
   source              = "./modules/monitoring"
   resource_group_name = var.resource_group_name
@@ -5,15 +14,12 @@ module "monitoring" {
   location            = var.location
 }
 
-
-
 module "bootstrap" {
   source              = "./modules/bootstrap"
   resource_group_name = var.resource_group_name
   aks_cluster_name        = module.aks.cluster_name
   depends_on          = [module.aks]
 }
-
 
 module "aks" {
   source = "./modules/aks"  # path to your aks module folder
@@ -39,9 +45,7 @@ module "aks" {
   kube_config_sensitive    = var.kube_config_sensitive
   kube_config_output       = var.kube_config_output
   aks_version              = var.aks_version
-
 }
-
 
 module "aks_rbac" {
   source = "./modules/aks-rbac"
