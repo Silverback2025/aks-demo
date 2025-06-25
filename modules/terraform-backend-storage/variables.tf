@@ -18,3 +18,8 @@ variable "container_name" {
   description = "Name of the blob container to hold the Terraform state"
 }
 
+variable "min_tls_version" {
+  description = "Minimum TLS version for the storage account"
+  type        = string
+  default     = "TLS1_2"
+}
