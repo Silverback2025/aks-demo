@@ -31,6 +31,10 @@ azure_rbac_mode        = ""
 vm_size     = "Standard_DS2_v2"
 aks_version = "1.21.2"
 
+api_server_authorized_ip_ranges = [
+  "203.0.113.42/32",  
+  "185.199.108.0/22"  
+]
 
 
 
