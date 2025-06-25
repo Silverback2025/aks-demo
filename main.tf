@@ -41,6 +41,8 @@ module "aks" {
   addon_profile                   = var.addon_profile
   network_profile                 = var.network_profile
   kube_config                     = var.kube_config
+  cluster_name        = module.aks.cluster_name
+  resource_group_name = module.aks.resource_group_name
   kube_config_context             = var.kube_config_context
   kube_config_path                = var.kube_config_path
   kube_config_content             = var.kube_config_content
