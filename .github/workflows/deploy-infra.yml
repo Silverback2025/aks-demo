@@ -34,7 +34,11 @@ jobs:
       - name: Terraform Format Check
         run: terraform fmt -check -recursive
         working-directory: ${{ env.TF_WORKING_DIR }}
-        
+
+      - name: Clean previous Terraform cache
+        run: |
+          rm -rf .terraform .terraform.lock.hcl
+
       - name: Terraform Init
         run: terraform init -upgrade
         working-directory: ${{ env.TF_WORKING_DIR }}
