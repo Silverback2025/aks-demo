@@ -52,7 +52,7 @@ module "aks" {
 module "aks_rbac" {
   source = "./modules/aks-rbac"
 
-  cluster_name           = module.aks_cluster_name
+  cluster_name           = module.aks.cluster_name
   resource_group_name    = module.aks.resource_group_name
   aks_cluster_id         = module.aks.cluster_id
   admin_group_object_ids = var.admin_group_object_ids
