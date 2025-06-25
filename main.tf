@@ -51,14 +51,14 @@ module "aks" {
 module "aks_rbac" {
   source = "./modules/aks-rbac"
 
-  cluster_name        = module.aks_cluster.name
-  resource_group_name = module.aks_cluster.resource_group_name
+  cluster_name           = module.aks_cluster.name
+  resource_group_name    = module.aks_cluster.resource_group_name
   aks_cluster_id         = module.aks.cluster_id
   admin_group_object_ids = var.admin_group_object_ids
   scope                  = module.aks.cluster_id
   enable_azure_rbac      = var.enable_azure_rbac
   azure_rbac_enabled     = var.azure_rbac_enabled
   azure_rbac_mode        = var.azure_rbac_mode
-  depends_on = [module.aks_cluster]
+  depends_on             = [module.aks_cluster]
 }
 
