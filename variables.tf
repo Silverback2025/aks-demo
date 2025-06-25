@@ -160,3 +160,9 @@ variable "api_server_authorized_ip_ranges" {
   type        = list(string)
   default     = []
 }
+
+variable "min_tls_version" {
+  description = "Minimum TLS version for the storage account"
+  type        = string
+  default     = "TLS1_2"
+}
