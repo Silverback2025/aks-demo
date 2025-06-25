@@ -3,10 +3,6 @@ variable "scope" {
   type        = string
 }
 
-variable "admin_group_object_ids" {
-  description = "List of Azure AD group object IDs to assign admin role"
-  type        = list(string)
-}
 
 variable "enable_azure_rbac" {
   description = "Enable Azure RBAC for the AKS cluster"
