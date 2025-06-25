@@ -1,19 +1,17 @@
-# tfsec:ignore:azure-container-limit-authorized-ips
-# Justification: IP ranges are explicitly locked down under api_server_access_profile
 resource "azurerm_kubernetes_cluster" "aks" {
-  name     = var.cluster_name
-  location = var.location
-
-  api_server_access_profile {
-    authorized_ip_ranges = [
-      "203.0.113.42/32",
-      "185.199.108.0/22"
-    ]
-  }
-
+  name                = var.cluster_name
+  location            = var.location
   resource_group_name = var.resource_group_name
   dns_prefix          = var.dns_prefix
   kubernetes_version  = var.kubernetes_version
+
+  # Enable basic RBAC (required for your separate module to work)
+  rbac_enabled = true
+
+  # Keep your existing configuration:
+  api_server_access_profile {
+    authorized_ip_ranges = var.api_server_authorized_ip_ranges
+  }
 
   default_node_pool {
     name       = "default"
@@ -25,14 +23,15 @@ resource "azurerm_kubernetes_cluster" "aks" {
     type = "SystemAssigned"
   }
 
-  # Explicitly disable RBAC here since it's handled by separate module
-  role_based_access_control {
-    enabled = false
-  }
-
   network_profile {
     network_plugin    = var.network_plugin
     load_balancer_sku = "standard"
+  }
+
+  # Explicitly disable Azure AD RBAC since you're managing it separately
+  azure_active_directory_role_based_access_control {
+    managed            = false
+    azure_rbac_enabled = false
   }
 
   tags = var.tags
