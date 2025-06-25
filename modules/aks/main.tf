@@ -3,6 +3,7 @@
 resource "azurerm_kubernetes_cluster" "aks" {
   name     = var.cluster_name
   location = var.location
+  
   api_server_access_profile {
     authorized_ip_ranges = [
       "203.0.113.42/32",
@@ -10,9 +11,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
     ]
   }
 
-  #  api_server_access_profile {
-  #    authorized_ip_ranges = var.api_server_authorized_ip_ranges
-  #  }
   resource_group_name = var.resource_group_name
   dns_prefix          = var.dns_prefix
   kubernetes_version  = var.kubernetes_version
@@ -27,9 +25,10 @@ resource "azurerm_kubernetes_cluster" "aks" {
     type = "SystemAssigned"
   }
 
-  # RBAC removed here
-
-
+  # Explicitly disable RBAC here since it's handled by separate module
+  role_based_access_control {
+    enabled = false
+  }
 
   network_profile {
     network_plugin    = var.network_plugin
@@ -38,10 +37,3 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   tags = var.tags
 }
-
-resource "kubernetes_namespace" "chat_namespace" {
-  metadata {
-    name = var.chatui_namespace
-  }
-}
-
