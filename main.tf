@@ -1,6 +1,6 @@
 
 module "backend_storage" {
-  source               = "./modules/terraform_backend_storage"
+  source               = "./modules/terraform-backend-storage"
   resource_group_name  = var.resource_group_name
   location             = var.location
   storage_account_name = var.storage_account_name
