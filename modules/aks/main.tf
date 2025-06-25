@@ -1,6 +1,8 @@
 resource "azurerm_kubernetes_cluster" "aks" {
   name     = var.cluster_name
   location = var.location
+  # tfsec:ignore:azure-container-limit-authorized-ips
+  # Justification: IP ranges are explicitly locked down under api_server_access_profile
   api_server_access_profile {
     authorized_ip_ranges = [
       "203.0.113.42/32",
