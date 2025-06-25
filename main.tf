@@ -30,6 +30,7 @@ module "aks" {
   chatui_namespace                = var.chatui_namespace
   cluster_name                    = var.aks_cluster_name
   node_count                      = var.node_count
+  admin_group_object_ids = var.admin_group_object_ids  
   node_vm_size                    = var.vm_size
   network_plugin                  = var.network_plugin
   load_balancer_sku               = var.load_balancer_sku
