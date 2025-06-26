@@ -130,11 +130,7 @@ variable "kube_config_output" {
   type        = string
   default     = ""
 }
-variable "aks_version" {
-  description = "Version of the AKS cluster"
-  type        = string
-  default     = "1.21.2"
-}
+
 
 variable "api_server_authorized_ip_ranges" {
   description = "List of IP ranges allowed to access the AKS API server"
