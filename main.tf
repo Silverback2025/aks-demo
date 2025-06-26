@@ -1,8 +1,8 @@
 
 module "backend_storage" {
   source               = "./modules/terraform-backend-storage"
-  resource_group_name  = ashishtech
-  location             = centralindia
+  resource_group_name  = "ashishtech"
+  location             = "centralindia"
   storage_account_name = var.storage_account_name
   container_name       = var.container_name
 }
