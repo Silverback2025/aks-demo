@@ -76,4 +76,6 @@ az identity federated-credential create \
   --issuer "https://token.actions.githubusercontent.com" \
   --subject "repo:<OWNER>/<REPO>:ref:refs/heads/<BRANCH>" \
   --audiences "api://AzureADTokenExchange"
-  
+
+az aks get-credentials --resource-group <your-resource-group> --name <your-aks-cluster-name>
+
