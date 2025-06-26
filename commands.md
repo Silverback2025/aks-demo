@@ -14,7 +14,7 @@ terraform plan -out=tfplan
 terraform apply tfplan
 
 # Get kubeconfig for kubectl
-az aks get-credentials --resource-group <rg-name> --name <aks-name>
+az aks get-credentials --resource-group <rg-name> --name <aks-name>.
 
 # (Optional) Destroy resources
 terraform destroy
