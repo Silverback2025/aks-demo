@@ -105,10 +105,6 @@ variable "kube_config_output" {
   type        = bool
 }
 
-variable "aks_version" {
-  description = "AKS version"
-  type        = string
-}
 
 variable "admin_group_object_ids" {
   description = "Admin group object IDs for RBAC"
