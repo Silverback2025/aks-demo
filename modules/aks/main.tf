@@ -8,8 +8,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   # Keep your existing configuration:
   #api_server_access_profile {
-    #    enable_private_cluster = false
-    #authorized_ip_ranges = var.api_server_authorized_ip_ranges
+  #    enable_private_cluster = false
+  #authorized_ip_ranges = var.api_server_authorized_ip_ranges
   #}
 
   default_node_pool {
