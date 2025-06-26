@@ -31,7 +31,7 @@ azure_rbac_mode        = ""
 vm_size = "Standard_B2s"
 
 
-api_server_authorized_ip_ranges = ["203.0.113.10/32"]
+api_server_authorized_ip_ranges = [""]
 min_tls_version                 = "TLS1_2"
 
 
