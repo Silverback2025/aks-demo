@@ -1,4 +1,4 @@
-name: CI - Terraform and ACR Integration
+name: TF Destroy
 
 on:
   workflow_dispatch:
