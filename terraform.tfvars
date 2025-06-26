@@ -1,5 +1,5 @@
 subscription_id            = "c9a64aa6-d430-43a8-a468-96c3018719cd"
-resource_group_name        = "aksdemo"
+resource_group_name        = "ashishtech"
 location                   = "centralindia"
 aks_cluster_name           = "aks-cluster"
 dns_prefix                 = "aksdns"
