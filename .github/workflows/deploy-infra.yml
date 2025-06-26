@@ -70,11 +70,14 @@ jobs:
         with:
           name: tfplan
           path: ${{ env.TF_WORKING_DIR }}
+          
       - name: Install kubelogin for AKS AAD
         run: |
           curl -LO https://github.com/Azure/kubelogin/releases/latest/download/kubelogin-linux-amd64.zip
-           unzip kubelogin-linux-amd64.zip
-           sudo mv kubelogin /usr/local/bin
+          unzip kubelogin-linux-amd64.zip
+          sudo mv bin/linux_amd64/kubelogin /usr/local/bin/
+          rm -rf kubelogin-linux-amd64.zip bin/
+
 
       - name: Terraform Apply
         run: terraform apply -input=false tfplan
