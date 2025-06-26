@@ -12,7 +12,7 @@ env:
   TF_VAR_IMAGE_TAG: ${{ github.run_id }}
 
 jobs:
-  validate-plan-build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,19 +26,17 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           enable-AzPSSession: false
-          
-      - name: Set up AKS credentials
-        run: |
-          az aks get-credentials --resource-group ashishtech --name aks-cluster --overwrite-existing
 
       - name: Install kubelogin
         run: |
           curl -LO https://github.com/Azure/kubelogin/releases/latest/download/kubelogin-linux-amd64.zip
           unzip kubelogin-linux-amd64.zip
-          sudo mv kubelogin /usr/local/bin
-          rm kubelogin-linux-amd64.zip
+          sudo mv bin/linux_amd64/kubelogin /usr/local/bin/
+          rm -rf bin kubelogin-linux-amd64.zip
 
-
+      - name: Set up AKS credentials
+        run: |
+          az aks get-credentials --resource-group ashishtech --name aks-cluster --overwrite-existing
 
       - name: Install Argo CD
         run: |
@@ -59,9 +57,12 @@ jobs:
           spec:
             project: default
             source:
-              repoURL: https://github.com/YOUR_GITHUB_USER/YOUR_REPO
+              repoURL: https://github.com/Silverback2025/aks-demo
               targetRevision: HEAD
-              path: path/to/manifests
+              path: chartui
+              helm:
+                valueFiles:
+                  - values.yaml
             destination:
               server: https://kubernetes.default.svc
               namespace: default
@@ -70,3 +71,9 @@ jobs:
                 prune: true
                 selfHeal: true
           EOF
+
+      - name: Confirm Argo CD App sync status
+        run: |
+          sleep 30
+          echo "App sync status:"
+          kubectl get application my-app -n argocd -o jsonpath="{.status.sync.status}" ; echo
