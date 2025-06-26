@@ -37,6 +37,6 @@ jobs:
         working-directory: ${{ env.TF_WORKING_DIR }}
 
       - name: Terraform Destroy (parallel & quick)
-        working-directory: ./terraform
+        working-directory: ${{ env.TF_WORKING_DIR }}
         run: terraform destroy -auto-approve -parallelism=50
 
