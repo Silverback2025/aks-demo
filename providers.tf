@@ -12,8 +12,8 @@ terraform {
 provider "azurerm" {
   features {}
   subscription_id = var.subscription_id
-  use_oidc = true
-  client_id = var.managed_identity_client_id
+  use_oidc        = true
+  client_id       = var.managed_identity_client_id
 }
 
 provider "kubernetes" {
