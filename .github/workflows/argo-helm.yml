@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Deploy App:
+  deploy-app:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,42 +17,40 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          enable-AzPSSession: false
 
-    - name: Get AKS Credentials
-      uses: azure/aks-set-context@v3
-      with:
-        resource-group: ${{ secrets.AKS_RESOURCE_GROUP }}
-        cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
+      - name: Get AKS Credentials
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: ${{ secrets.AKS_RESOURCE_GROUP }}
+          cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
 
-    - name: Install Argo CD
-      run: |
-        kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
-        kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+      - name: Install Argo CD
+        run: |
+          kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
+          kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
-        # Wait for Argo CD server to be ready
-        kubectl wait deployment argocd-server -n argocd --for=condition=Available=True --timeout=180s
+          echo "Waiting for Argo CD server to be ready..."
+          kubectl rollout status deployment argocd-server -n argocd --timeout=180s
 
-    - name: Create Argo CD Application
-      run: |
-        kubectl apply -f - <<EOF
-        apiVersion: argoproj.io/v1alpha1
-        kind: Application
-        metadata:
-          name: my-app
-          namespace: argocd
-        spec:
-          project: default
-          source:
-            repoURL: https://github.com/YOUR_GITHUB_USER/YOUR_REPO
-            targetRevision: HEAD
-            path: path/to/manifests
-          destination:
-            server: https://kubernetes.default.svc
-            namespace: default
-          syncPolicy:
-            automated:
-              prune: true
-              selfHeal: true
-        EOF
-
+      - name: Create Argo CD Application
+        run: |
+          cat <<EOF | kubectl apply -f -
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            name: my-app
+            namespace: argocd
+          spec:
+            project: default
+            source:
+              repoURL: https://github.com/YOUR_GITHUB_USER/YOUR_REPO
+              targetRevision: HEAD
+              path: path/to/manifests
+            destination:
+              server: https://kubernetes.default.svc
+              namespace: default
+            syncPolicy:
+              automated:
+                prune: true
+                selfHeal: true
+          EOF
