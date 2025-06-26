@@ -77,5 +77,10 @@ az identity federated-credential create \
   --subject "repo:<OWNER>/<REPO>:ref:refs/heads/<BRANCH>" \
   --audiences "api://AzureADTokenExchange"
 
-az aks get-credentials --resource-group <your-resource-group> --name <your-aks-cluster-name>
+az account set --subscription c9a64aa6-d430-43a8-a468-96c3018719cd
+az aks get-credentials --resource-group ashishtech --name aks-cluster --overwrite-existing
+kubelogin convert-kubeconfig -l azurecli
+
+install kubelogin
+az aks install-cli
 
