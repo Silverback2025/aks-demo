@@ -36,6 +36,8 @@ jobs:
           curl -LO https://github.com/Azure/kubelogin/releases/latest/download/kubelogin-linux-amd64.zip
           unzip kubelogin-linux-amd64.zip
           sudo mv kubelogin /usr/local/bin
+          rm kubelogin-linux-amd64.zip
+
 
 
       - name: Install Argo CD
