@@ -28,7 +28,7 @@ enable_azure_rbac      = false
 azure_rbac_enabled     = false
 azure_rbac_mode        = ""
 
-vm_size     = "Standard_B2s"
+vm_size = "Standard_B2s"
 
 
 api_server_authorized_ip_ranges = ["203.0.113.10/32"]
