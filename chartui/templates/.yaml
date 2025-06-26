@@ -1,0 +1,1284 @@
+apiVersion: v1
+kind: List
+metadata:
+  name: {{ include "chartui.fullname" . }}-
+  labels:
+  {{- include "chartui.labels" . | nindent 4 }}
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/restartedAt: "2025-06-26T01:51:45+08:00"
+    creationTimestamp: "2025-06-25T17:56:07Z"
+    generateName: chatui-7db9c4c88c-
+    labels:
+      app: chatui
+      pod-template-hash: 7db9c4c88c
+    name: chatui-7db9c4c88c-fnkzd
+    namespace: chatui
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: chatui-7db9c4c88c
+      uid: f8480337-de55-4721-94ee-62e36246a5dc
+    resourceVersion: "454156"
+    uid: 3a7713ba-f44b-4e34-9f77-c55417c4bc69
+  spec:
+    containers:
+    - envFrom:
+      - configMapRef:
+          name: chatui-config
+      image: ghcr.io/huggingface/chat-ui:latest
+      imagePullPolicy: Always
+      name: chatui
+      ports:
+      - containerPort: 3000
+        protocol: TCP
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /data/models
+        name: chat-storage
+      - mountPath: /home/user/.cache
+        name: chat-storage
+        subPath: cache
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-6gq5r
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: aks-agentpool-15002682-vmss000002
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: chat-storage
+      persistentVolumeClaim:
+        claimName: chat-pvc
+    - configMap:
+        defaultMode: 420
+        items:
+        - key: vite.config.js
+          path: vite.config.js
+        name: chatui-config-vite
+      name: config-volume
+    - name: kube-api-access-6gq5r
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-06-25T17:56:08Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-06-25T17:56:07Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-06-25T17:56:08Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-06-25T17:56:08Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-06-25T17:56:07Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://6040d29b50fa313d9ea9e2d4e54d18f1ba1eef156159a867273d12314a5ffab4
+      image: ghcr.io/huggingface/chat-ui:latest
+      imageID: ghcr.io/huggingface/chat-ui@sha256:296a4459b852e963c3d80450547d585f2f7b77ad393261dbc06c0137d7e1e358
+      lastState: {}
+      name: chatui
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-06-25T17:56:07Z"
+      volumeMounts:
+      - mountPath: /data/models
+        name: chat-storage
+      - mountPath: /home/user/.cache
+        name: chat-storage
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-6gq5r
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 10.224.0.4
+    hostIPs:
+    - ip: 10.224.0.4
+    phase: Running
+    podIP: 10.244.1.167
+    podIPs:
+    - ip: 10.244.1.167
+    qosClass: BestEffort
+    startTime: "2025-06-25T17:56:07Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2025-06-25T07:56:11Z"
+    generateName: mongodb-7c844fffc4-
+    labels:
+      app: mongodb
+      pod-template-hash: 7c844fffc4
+    name: mongodb-7c844fffc4-tf7qg
+    namespace: chatui
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: mongodb-7c844fffc4
+      uid: 53b37f13-ad1d-4922-9cb6-d6f9f09b8723
+    resourceVersion: "409951"
+    uid: 82e597c4-f2f2-4751-b9d7-13507ffefc17
+  spec:
+    containers:
+    - image: mongo:6.0
+      imagePullPolicy: IfNotPresent
+      name: mongodb
+      ports:
+      - containerPort: 27017
+        protocol: TCP
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /data/db
+        name: mongo-persistent-storage
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-2h4mz
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: aks-agentpool-15002682-vmss000002
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: mongo-persistent-storage
+      persistentVolumeClaim:
+        claimName: mongo-pvc
+    - name: kube-api-access-2h4mz
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-06-25T15:25:41Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-06-25T15:25:04Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-06-25T15:25:41Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-06-25T15:25:41Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-06-25T15:25:04Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://b640e6be20d4a082411c84118e06126abdcac598b43b81028a17f112bd883870
+      image: docker.io/library/mongo:6.0
+      imageID: docker.io/library/mongo@sha256:2c6f0a6f33856597ad3d467a71af506bec71e73d945ead65b1af119be38b4c43
+      lastState: {}
+      name: mongodb
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-06-25T15:25:41Z"
+      volumeMounts:
+      - mountPath: /data/db
+        name: mongo-persistent-storage
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-2h4mz
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 10.224.0.4
+    hostIPs:
+    - ip: 10.224.0.4
+    phase: Running
+    podIP: 10.244.1.219
+    podIPs:
+    - ip: 10.244.1.219
+    qosClass: BestEffort
+    startTime: "2025-06-25T15:25:04Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2025-06-25T07:56:11Z"
+    generateName: ollama-fd8d7844d-
+    labels:
+      app: ollama
+      pod-template-hash: fd8d7844d
+    name: ollama-fd8d7844d-c6h79
+    namespace: chatui
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: ollama-fd8d7844d
+      uid: 0f7d3263-38e4-4e63-b90b-7010892e2093
+    resourceVersion: "409897"
+    uid: e9f3e3c6-dea9-4493-a4da-3a447273530e
+  spec:
+    containers:
+    - envFrom:
+      - configMapRef:
+          name: ollama-config
+      image: ollama/ollama
+      imagePullPolicy: Always
+      name: ollama
+      ports:
+      - containerPort: 11434
+        protocol: TCP
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /root/.ollama
+        name: ollama-data
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-ms4n8
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: aks-agentpool-15002682-vmss000003
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - emptyDir: {}
+      name: ollama-data
+    - name: kube-api-access-ms4n8
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-06-25T15:25:37Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-06-25T15:24:53Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-06-25T15:25:37Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-06-25T15:25:37Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-06-25T15:24:53Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://902325489d569986b93d1ae1dcc13587a0bb3c084b391f4d5190ec9f89f4b6d5
+      image: docker.io/ollama/ollama:latest
+      imageID: docker.io/ollama/ollama@sha256:5d2f63e9e6ba753c8774991d95cf9091b5c35a0f84e1801a530b4f3fcef0e329
+      lastState: {}
+      name: ollama
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-06-25T15:25:37Z"
+      volumeMounts:
+      - mountPath: /root/.ollama
+        name: ollama-data
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-ms4n8
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 10.224.0.5
+    hostIPs:
+    - ip: 10.224.0.5
+    phase: Running
+    podIP: 10.244.0.179
+    podIPs:
+    - ip: 10.244.0.179
+    qosClass: BestEffort
+    startTime: "2025-06-25T15:24:53Z"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"chatui","namespace":"chatui"},"spec":{"ports":[{"port":80,"protocol":"TCP","targetPort":3000}],"selector":{"app":"chatui"},"type":"ClusterIP"}}
+    creationTimestamp: "2025-06-24T09:23:01Z"
+    name: chatui
+    namespace: chatui
+    resourceVersion: "20205"
+    uid: bd820be9-ec5f-4fbe-9b41-fb832283f555
+  spec:
+    clusterIP: 10.0.44.98
+    clusterIPs:
+    - 10.0.44.98
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 3000
+    selector:
+      app: chatui
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"mongodb","namespace":"chatui"},"spec":{"ports":[{"port":27017,"protocol":"TCP","targetPort":27017}],"selector":{"app":"mongodb"},"type":"ClusterIP"}}
+    creationTimestamp: "2025-06-24T08:28:21Z"
+    name: mongodb
+    namespace: chatui
+    resourceVersion: "4399"
+    uid: 8eadb8c9-d1fb-4d4e-92b4-baafb15ec923
+  spec:
+    clusterIP: 10.0.243.41
+    clusterIPs:
+    - 10.0.243.41
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 27017
+      protocol: TCP
+      targetPort: 27017
+    selector:
+      app: mongodb
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"ollama","namespace":"chatui"},"spec":{"ports":[{"port":11434,"targetPort":11434}],"selector":{"app":"ollama"}}}
+    creationTimestamp: "2025-06-24T08:23:00Z"
+    name: ollama
+    namespace: chatui
+    resourceVersion: "2667"
+    uid: 3e517513-5f7d-46d7-b457-b95a0fb4e13a
+  spec:
+    clusterIP: 10.0.138.220
+    clusterIPs:
+    - 10.0.138.220
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 11434
+      protocol: TCP
+      targetPort: 11434
+    selector:
+      app: ollama
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "5"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"chatui","namespace":"chatui"},"spec":{"progressDeadlineSeconds":600,"replicas":1,"revisionHistoryLimit":10,"selector":{"matchLabels":{"app":"chatui"}},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":"25%"},"type":"RollingUpdate"},"template":{"metadata":{"labels":{"app":"chatui"}},"spec":{"containers":[{"envFrom":[{"configMapRef":{"name":"chatui-config"}}],"image":"ghcr.io/huggingface/chat-ui:latest","imagePullPolicy":"Always","name":"chatui","ports":[{"containerPort":3000,"protocol":"TCP"}],"resources":{},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","volumeMounts":[{"mountPath":"/data/models","name":"chat-storage"},{"mountPath":"/home/user/.cache","name":"chat-storage","subPath":"cache"}]}],"dnsPolicy":"ClusterFirst","restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"terminationGracePeriodSeconds":30,"volumes":[{"name":"chat-storage","persistentVolumeClaim":{"claimName":"chat-pvc"}},{"configMap":{"defaultMode":420,"items":[{"key":"vite.config.js","path":"vite.config.js"}],"name":"chatui-config-vite"},"name":"config-volume"}]}}}}
+    creationTimestamp: "2025-06-24T08:31:32Z"
+    generation: 7
+    name: chatui
+    namespace: chatui
+    resourceVersion: "454160"
+    uid: 8628d958-2c24-4994-95bb-22da0f6f008e
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: chatui
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2025-06-26T01:51:45+08:00"
+        creationTimestamp: null
+        labels:
+          app: chatui
+      spec:
+        containers:
+        - envFrom:
+          - configMapRef:
+              name: chatui-config
+          image: ghcr.io/huggingface/chat-ui:latest
+          imagePullPolicy: Always
+          name: chatui
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data/models
+            name: chat-storage
+          - mountPath: /home/user/.cache
+            name: chat-storage
+            subPath: cache
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: chat-storage
+          persistentVolumeClaim:
+            claimName: chat-pvc
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: vite.config.js
+              path: vite.config.js
+            name: chatui-config-vite
+          name: config-volume
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2025-06-24T08:31:32Z"
+      lastUpdateTime: "2025-06-25T17:51:47Z"
+      message: ReplicaSet "chatui-7db9c4c88c" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2025-06-25T17:56:08Z"
+      lastUpdateTime: "2025-06-25T17:56:08Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 7
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"mongodb"},"name":"mongodb","namespace":"chatui"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"mongodb"}},"template":{"metadata":{"labels":{"app":"mongodb"}},"spec":{"containers":[{"image":"mongo:6.0","name":"mongodb","ports":[{"containerPort":27017}],"volumeMounts":[{"mountPath":"/data/db","name":"mongo-persistent-storage"}]}],"volumes":[{"name":"mongo-persistent-storage","persistentVolumeClaim":{"claimName":"mongo-pvc"}}]}}}}
+    creationTimestamp: "2025-06-24T08:27:39Z"
+    generation: 3
+    labels:
+      app: mongodb
+    name: mongodb
+    namespace: chatui
+    resourceVersion: "409955"
+    uid: addba10a-25af-4ad2-b991-5c183fa24afb
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: mongodb
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: mongodb
+      spec:
+        containers:
+        - image: mongo:6.0
+          imagePullPolicy: IfNotPresent
+          name: mongodb
+          ports:
+          - containerPort: 27017
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data/db
+            name: mongo-persistent-storage
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: mongo-persistent-storage
+          persistentVolumeClaim:
+            claimName: mongo-pvc
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2025-06-24T08:27:39Z"
+      lastUpdateTime: "2025-06-24T08:28:02Z"
+      message: ReplicaSet "mongodb-7c844fffc4" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2025-06-25T15:25:41Z"
+      lastUpdateTime: "2025-06-25T15:25:41Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 3
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "2"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"ollama","namespace":"chatui"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"ollama"}},"template":{"metadata":{"labels":{"app":"ollama"}},"spec":{"containers":[{"envFrom":[{"configMapRef":{"name":"ollama-config"}}],"image":"ollama/ollama","name":"ollama","ports":[{"containerPort":11434}],"volumeMounts":[{"mountPath":"/root/.ollama","name":"ollama-data"}]}],"volumes":[{"emptyDir":{},"name":"ollama-data"}]}}}}
+    creationTimestamp: "2025-06-24T08:22:08Z"
+    generation: 4
+    name: ollama
+    namespace: chatui
+    resourceVersion: "409901"
+    uid: 1ea9811f-6552-4f00-bf04-055d9c583da6
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: ollama
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: ollama
+      spec:
+        containers:
+        - envFrom:
+          - configMapRef:
+              name: ollama-config
+          image: ollama/ollama
+          imagePullPolicy: Always
+          name: ollama
+          ports:
+          - containerPort: 11434
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /root/.ollama
+            name: ollama-data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: ollama-data
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2025-06-24T08:22:08Z"
+      lastUpdateTime: "2025-06-24T13:50:20Z"
+      message: ReplicaSet "ollama-fd8d7844d" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2025-06-25T15:25:37Z"
+      lastUpdateTime: "2025-06-25T15:25:37Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 4
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "2"
+    creationTimestamp: "2025-06-24T17:48:07Z"
+    generation: 2
+    labels:
+      app: chatui
+      pod-template-hash: 5c66fc6fb9
+    name: chatui-5c66fc6fb9
+    namespace: chatui
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: chatui
+      uid: 8628d958-2c24-4994-95bb-22da0f6f008e
+    resourceVersion: "426148"
+    uid: 166ab832-6bb6-4c83-bf62-620b83663837
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: chatui
+        pod-template-hash: 5c66fc6fb9
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: chatui
+          pod-template-hash: 5c66fc6fb9
+      spec:
+        containers:
+        - envFrom:
+          - configMapRef:
+              name: chatui-config
+          image: ghcr.io/huggingface/chat-ui:latest
+          imagePullPolicy: Always
+          name: chatui
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data/models
+            name: chat-storage
+          - mountPath: /app/vite.config.js
+            name: config-volume
+            subPath: vite.config.js
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: chat-storage
+          persistentVolumeClaim:
+            claimName: chat-pvc
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: vite.config.js
+              path: vite.config.js
+            name: chatui-config-vite
+          name: config-volume
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2025-06-24T08:31:32Z"
+    generation: 4
+    labels:
+      app: chatui
+      pod-template-hash: 79589d5cd8
+    name: chatui-79589d5cd8
+    namespace: chatui
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: chatui
+      uid: 8628d958-2c24-4994-95bb-22da0f6f008e
+    resourceVersion: "165531"
+    uid: 615f97c5-5d92-4691-8243-6eb75143675a
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: chatui
+        pod-template-hash: 79589d5cd8
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: chatui
+          pod-template-hash: 79589d5cd8
+      spec:
+        containers:
+        - envFrom:
+          - configMapRef:
+              name: chatui-config
+          image: ghcr.io/huggingface/chat-ui:latest
+          imagePullPolicy: Always
+          name: chatui
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data/models
+            name: chat-storage
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: chat-storage
+          persistentVolumeClaim:
+            claimName: chat-pvc
+  status:
+    observedGeneration: 4
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "5"
+    creationTimestamp: "2025-06-25T17:51:46Z"
+    generation: 1
+    labels:
+      app: chatui
+      pod-template-hash: 7db9c4c88c
+    name: chatui-7db9c4c88c
+    namespace: chatui
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: chatui
+      uid: 8628d958-2c24-4994-95bb-22da0f6f008e
+    resourceVersion: "454159"
+    uid: f8480337-de55-4721-94ee-62e36246a5dc
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: chatui
+        pod-template-hash: 7db9c4c88c
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2025-06-26T01:51:45+08:00"
+        creationTimestamp: null
+        labels:
+          app: chatui
+          pod-template-hash: 7db9c4c88c
+      spec:
+        containers:
+        - envFrom:
+          - configMapRef:
+              name: chatui-config
+          image: ghcr.io/huggingface/chat-ui:latest
+          imagePullPolicy: Always
+          name: chatui
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data/models
+            name: chat-storage
+          - mountPath: /home/user/.cache
+            name: chat-storage
+            subPath: cache
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: chat-storage
+          persistentVolumeClaim:
+            claimName: chat-pvc
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: vite.config.js
+              path: vite.config.js
+            name: chatui-config-vite
+          name: config-volume
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "4"
+    creationTimestamp: "2025-06-25T16:57:01Z"
+    generation: 2
+    labels:
+      app: chatui
+      pod-template-hash: 84b7fb9448
+    name: chatui-84b7fb9448
+    namespace: chatui
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: chatui
+      uid: 8628d958-2c24-4994-95bb-22da0f6f008e
+    resourceVersion: "452843"
+    uid: d01e4e8f-5b23-4278-b390-93afa48ceddd
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: chatui
+        pod-template-hash: 84b7fb9448
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: chatui
+          pod-template-hash: 84b7fb9448
+      spec:
+        containers:
+        - envFrom:
+          - configMapRef:
+              name: chatui-config
+          image: ghcr.io/huggingface/chat-ui:latest
+          imagePullPolicy: Always
+          name: chatui
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data/models
+            name: chat-storage
+          - mountPath: /home/user/.cache
+            name: chat-storage
+            subPath: cache
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: chat-storage
+          persistentVolumeClaim:
+            claimName: chat-pvc
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: vite.config.js
+              path: vite.config.js
+            name: chatui-config-vite
+          name: config-volume
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "3"
+    creationTimestamp: "2025-06-25T16:22:07Z"
+    generation: 2
+    labels:
+      app: chatui
+      pod-template-hash: 86dfb47577
+    name: chatui-86dfb47577
+    namespace: chatui
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: chatui
+      uid: 8628d958-2c24-4994-95bb-22da0f6f008e
+    resourceVersion: "436314"
+    uid: 1a5ffbae-4e14-4022-b3a7-3e420cdba833
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: chatui
+        pod-template-hash: 86dfb47577
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: chatui
+          pod-template-hash: 86dfb47577
+      spec:
+        containers:
+        - envFrom:
+          - configMapRef:
+              name: chatui-config
+          image: ghcr.io/huggingface/chat-ui:latest
+          imagePullPolicy: Always
+          name: chatui
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data/models
+            name: chat-storage
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: chat-storage
+          persistentVolumeClaim:
+            claimName: chat-pvc
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: vite.config.js
+              path: vite.config.js
+            name: chatui-config-vite
+          name: config-volume
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2025-06-24T08:27:39Z"
+    generation: 3
+    labels:
+      app: mongodb
+      pod-template-hash: 7c844fffc4
+    name: mongodb-7c844fffc4
+    namespace: chatui
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: mongodb
+      uid: addba10a-25af-4ad2-b991-5c183fa24afb
+    resourceVersion: "409954"
+    uid: 53b37f13-ad1d-4922-9cb6-d6f9f09b8723
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: mongodb
+        pod-template-hash: 7c844fffc4
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: mongodb
+          pod-template-hash: 7c844fffc4
+      spec:
+        containers:
+        - image: mongo:6.0
+          imagePullPolicy: IfNotPresent
+          name: mongodb
+          ports:
+          - containerPort: 27017
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data/db
+            name: mongo-persistent-storage
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: mongo-persistent-storage
+          persistentVolumeClaim:
+            claimName: mongo-pvc
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 3
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2025-06-24T08:22:08Z"
+    generation: 4
+    labels:
+      app: ollama
+      pod-template-hash: 7d6cf68676
+    name: ollama-7d6cf68676
+    namespace: chatui
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: ollama
+      uid: 1ea9811f-6552-4f00-bf04-055d9c583da6
+    resourceVersion: "97389"
+    uid: 48d9a52a-e0cd-42b5-84e0-e571f03cedb7
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: ollama
+        pod-template-hash: 7d6cf68676
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: ollama
+          pod-template-hash: 7d6cf68676
+      spec:
+        containers:
+        - image: ollama/ollama
+          imagePullPolicy: Always
+          name: ollama
+          ports:
+          - containerPort: 11434
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /root/.ollama
+            name: ollama-data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: ollama-data
+  status:
+    observedGeneration: 4
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "2"
+    creationTimestamp: "2025-06-24T13:50:18Z"
+    generation: 1
+    labels:
+      app: ollama
+      pod-template-hash: fd8d7844d
+    name: ollama-fd8d7844d
+    namespace: chatui
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: ollama
+      uid: 1ea9811f-6552-4f00-bf04-055d9c583da6
+    resourceVersion: "409900"
+    uid: 0f7d3263-38e4-4e63-b90b-7010892e2093
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: ollama
+        pod-template-hash: fd8d7844d
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: ollama
+          pod-template-hash: fd8d7844d
+      spec:
+        containers:
+        - envFrom:
+          - configMapRef:
+              name: ollama-config
+          image: ollama/ollama
+          imagePullPolicy: Always
+          name: ollama
+          ports:
+          - containerPort: 11434
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /root/.ollama
+            name: ollama-data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: ollama-data
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
