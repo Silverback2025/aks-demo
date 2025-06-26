@@ -28,8 +28,8 @@ enable_azure_rbac      = false
 azure_rbac_enabled     = false
 azure_rbac_mode        = ""
 
-vm_size     = "Standard_DS2_v2"
-aks_version = "1.21.2"
+vm_size     = "Standard_B2s"
+
 
 api_server_authorized_ip_ranges = ["203.0.113.10/32"]
 min_tls_version                 = "TLS1_2"
