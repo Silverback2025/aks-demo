@@ -31,6 +31,13 @@ jobs:
         run: |
           az aks get-credentials --resource-group ashishtech --name aks-cluster --overwrite-existing
 
+      - name: Install kubelogin
+        run: |
+          curl -LO https://github.com/Azure/kubelogin/releases/latest/download/kubelogin-linux-amd64.zip
+          unzip kubelogin-linux-amd64.zip
+          sudo mv kubelogin /usr/local/bin
+
+
       - name: Install Argo CD
         run: |
           kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
