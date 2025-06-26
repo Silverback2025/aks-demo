@@ -1,11 +1,11 @@
-name: Terraform Destroy (No Init)
+name: Terraform Destroy
 
 on:
   workflow_dispatch:
 
 jobs:
   plan-destroy:
-    name: Terraform Plan Destroy
+    name: Terraform Plan - Destroy
     runs-on: ubuntu-latest
 
     env:
@@ -15,13 +15,16 @@ jobs:
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.7.5
+
+      - name: Terraform Init
+        run: terraform init
 
       - name: Terraform Plan (Destroy)
         run: terraform plan -destroy -out=tfplan.destroy
@@ -33,11 +36,12 @@ jobs:
           path: tfplan.destroy
 
   apply-destroy:
-    name: Terraform Apply Destroy
+    name: Terraform Apply - Destroy
     needs: plan-destroy
     runs-on: ubuntu-latest
     environment:
-      name: production  # Manual approval via GitHub Environments
+      name: production  # GitHub Environments required for manual approval
+      url: https://portal.azure.com  # Optional link for reviewers
 
     env:
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
@@ -46,13 +50,16 @@ jobs:
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.7.5
+
+      - name: Terraform Init
+        run: terraform init
 
       - name: Download Destroy Plan
         uses: actions/download-artifact@v4
@@ -62,4 +69,3 @@ jobs:
 
       - name: Terraform Apply (Destroy)
         run: terraform apply -auto-approve tfplan.destroy
-
