@@ -36,7 +36,7 @@ jobs:
 
       - name: Set up AKS credentials
         run: |
-          az aks get-credentials --resource-group ashishtech --name aks-cluster --overwrite-existing
+          az aks get-credentials --resource-group ashishtech --name aks-cluster --overwrite-existing --admin
 
       - name: Install Argo CD
         run: |
