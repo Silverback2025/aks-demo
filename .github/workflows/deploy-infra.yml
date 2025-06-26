@@ -37,20 +37,17 @@ jobs:
         working-directory: ${{ env.TF_WORKING_DIR }}
 
       - name: Clean previous Terraform cache
-        run: |
-          rm -rf .terraform .terraform.lock.hcl
+        run: rm -rf .terraform .terraform.lock.hcl
+        working-directory: ${{ env.TF_WORKING_DIR }}
 
       - name: Terraform Init
         run: terraform init -upgrade
         working-directory: ${{ env.TF_WORKING_DIR }}
-        
+
       - name: Terraform Validate
         run: terraform validate
         working-directory: ${{ env.TF_WORKING_DIR }}
-      
-      
-        
-      
+
       - name: Terraform Plan
         run: |
           terraform plan -out=tfplan -input=false -no-color \
@@ -66,14 +63,16 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: tfplan
-          path: tfplan
+          path: ${{ env.TF_WORKING_DIR }}/tfplan
 
+      - name: Download Plan Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: tfplan
+          path: ${{ env.TF_WORKING_DIR }}
 
-       
       - name: Terraform Apply
-        run: |
-          terraform apply -input=false -auto-approve \
-            -var="managed_identity_client_id=${{ secrets.AZURE_CLIENT_ID }}" \
-            -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+        run: terraform apply -input=false tfplan
         working-directory: ${{ env.TF_WORKING_DIR }}
+
 
