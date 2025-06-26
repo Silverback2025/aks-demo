@@ -69,10 +69,6 @@ variable "addon_profile" {
   type        = any
 }
 
-variable "subscription_id" {
-  type = string
-}
-
 variable "managed_identity_client_id" {
   type = string
 }
