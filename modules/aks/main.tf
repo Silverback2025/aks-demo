@@ -21,6 +21,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
     type = "SystemAssigned"
   }
 
+  sku_tier = "Standard"
+  
   network_profile {
     network_plugin    = var.network_plugin
     network_policy    = "azure"
